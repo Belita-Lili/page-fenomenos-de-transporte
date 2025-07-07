@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Fenómenos de Transporte</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Calculadora de Fenómenos de Transporte</h1>
+        <p>Basado en el libro de Yunus A. Çengel</p>
+    </header>
+
+    <main>
+        <div class="calculator-container">
+            <div class="tabs">
+                <button class="tab-button active" onclick="openTab('conduccion')">Conducción de Calor</button>
+                <button class="tab-button" onclick="openTab('conveccion')">Convección</button>
+                <button class="tab-button" onclick="openTab('radiacion')">Radiación</button>
+                <button class="tab-button" onclick="openTab('flujo-fluidos')">Flujo de Fluidos</button>
+            </div>
+
+            <!-- Pestaña de Conducción -->
+            <div id="conduccion" class="tab-content active-tab">
+                <h2>Ley de Fourier - Conducción de Calor</h2>
+                <div class="input-group">
+                    <label for="conductividad">Conductividad térmica (k) [W/m·K]:</label>
+                    <input type="number" id="conductividad" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label for="area-conduccion">Área transversal (A) [m²]:</label>
+                    <input type="number" id="area-conduccion" step="0.001">
+                </div>
+                <div class="input-group">
+                    <label for="temp-caliente">Temperatura caliente (T₁) [°C]:</label>
+                    <input type="number" id="temp-caliente">
+                </div>
+                <div class="input-group">
+                    <label for="temp-fria">Temperatura fría (T₂) [°C]:</label>
+                    <input type="number" id="temp-fria">
+                </div>
+                <div class="input-group">
+                    <label for="espesor">Espesor (Δx) [m]:</label>
+                    <input type="number" id="espesor" step="0.001">
+                </div>
+                <button onclick="calcularConduccion()">Calcular</button>
+                <div class="resultado" id="resultado-conduccion"></div>
+            </div>
+
+            <!-- Pestaña de Convección -->
+            <div id="conveccion" class="tab-content">
+                <h2>Ley de Enfriamiento de Newton - Convección</h2>
+                <div class="input-group">
+                    <label for="coeficiente-conveccion">Coeficiente de convección (h) [W/m²·K]:</label>
+                    <input type="number" id="coeficiente-conveccion" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label for="area-conveccion">Área superficial (A) [m²]:</label>
+                    <input type="number" id="area-conveccion" step="0.001">
+                </div>
+                <div class="input-group">
+                    <label for="temp-superficie">Temperatura de la superficie (Tₛ) [°C]:</label>
+                    <input type="number" id="temp-superficie">
+                </div>
+                <div class="input-group">
+                    <label for="temp-fluido">Temperatura del fluido (T∞) [°C]:</label>
+                    <input type="number" id="temp-fluido">
+                </div>
+                <button onclick="calcularConveccion()">Calcular</button>
+                <div class="resultado" id="resultado-conveccion"></div>
+            </div>
+
+            <!-- Pestaña de Radiación -->
+            <div id="radiacion" class="tab-content">
+                <h2>Ley de Stefan-Boltzmann - Radiación</h2>
+                <div class="input-group">
+                    <label for="emisividad">Emisividad (ε):</label>
+                    <input type="number" id="emisividad" min="0" max="1" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label for="area-radiacion">Área superficial (A) [m²]:</label>
+                    <input type="number" id="area-radiacion" step="0.001">
+                </div>
+                <div class="input-group">
+                    <label for="temp-superficie-rad">Temperatura de la superficie (Tₛ) [K]:</label>
+                    <input type="number" id="temp-superficie-rad">
+                </div>
+                <div class="input-group">
+                    <label for="temp-alrededores">Temperatura de los alrededores (Talr) [K]:</label>
+                    <input type="number" id="temp-alrededores">
+                </div>
+                <button onclick="calcularRadiacion()">Calcular</button>
+                <div class="resultado" id="resultado-radiacion"></div>
+            </div>
+
+            <!-- Pestaña de Flujo de Fluidos -->
+            <div id="flujo-fluidos" class="tab-content">
+                <h2>Ecuación de Hagen-Poiseuille - Flujo en Tuberías</h2>
+                <div class="input-group">
+                    <label for="diametro">Diámetro de la tubería (D) [m]:</label>
+                    <input type="number" id="diametro" step="0.001">
+                </div>
+                <div class="input-group">
+                    <label for="viscosidad">Viscosidad dinámica (μ) [Pa·s]:</label>
+                    <input type="number" id="viscosidad" step="0.0001">
+                </div>
+                <div class="input-group">
+                    <label for="longitud">Longitud de la tubería (L) [m]:</label>
+                    <input type="number" id="longitud" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label for="caida-presion">Caída de presión (ΔP) [Pa]:</label>
+                    <input type="number" id="caida-presion" step="0.1">
+                </div>
+                <button onclick="calcularFlujoFluidos()">Calcular</button>
+                <div class="resultado" id="resultado-flujo-fluidos"></div>
+            </div>
+        </div>
+
+        <div class="theory-section">
+            <h2>Teoría y Ecuaciones</h2>
+            <div id="theory-content">
+                <p>Seleccione una pestaña para ver las ecuaciones teóricas correspondientes.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Programa basado en el libro "Transferencia de Calor y Masa" de Yunus A. Çengel</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
